@@ -5,12 +5,22 @@ class EnemyHandler:
         self.enemys = []
         self.i = 0
         self.rate = 1
+        self.enemys_to_rm = []
     
     def add_enemy(self, pos):
         self.enemys.append(Enemy(self,pos))
 
 
     def update_enemys(self):
+        for rm_enemy in self.enemys_to_rm:
+            for enemy in self.enemys:
+                if rm_enemy == enemy:
+                    self.enemys.remove(enemy)
+                    break
+        self.enemys_to_rm.clear() 
+
+
+
         if self.i > 1000:
             self.i = 0 
             self.add_enemy(self.random_coord())
@@ -28,7 +38,8 @@ class EnemyHandler:
     def get_real_pos(self, pos):
         return self.pygame_app.r_to_w_pos((pos[0]*self.pygame_app.grid_step,-pos[1]*self.pygame_app.grid_step))
 
-    
+    def rm_enemy(self, enemy):
+        self.enemys_to_rm.append(enemy)
 
     def random_coord(self):
         pushed_axis = random.choice(["x", "y"])
@@ -58,7 +69,7 @@ class Enemy:
     
     def draw(self):
         self.handler.draw_enemy(self.pos, self.size)
-        
+
     def update(self, dt):
         self.live+=dt
         if self.live<=5000:

@@ -1,13 +1,18 @@
 class VectorHandler:
-    def __init__(self,pygame_app):
+    def __init__(self,pygame_app, enemy_handler):
         self.pygame_app = pygame_app
+        self.enemy_handler = enemy_handler
         self.vectors = []
     
     def update_vectors(self):
         dt = self.pygame_app.dt
+        enemys = self.enemy_handler.enemys
         for vector in self.vectors:
             vector.update(dt)
             vector.draw()
+            for enemy in enemys:
+                if vector.check_colision(enemy.pos, enemy.size):
+                    self.enemy_handler.rm_enemy(enemy)
     
     def draw_vector(self, pos):
         self.pygame_app.draw_vector(pos)
@@ -32,3 +37,8 @@ class Vector:
 
     def draw(self):
         self.handler.draw_vector(self.scaled_pos)
+    
+    def check_colision(self, pos, radius):
+        dist_qrt = (self.scaled_pos[0]-pos[0])**2 + (self.scaled_pos[1]-pos[1])**2
+        if dist_qrt < 0.1: return True
+        return False

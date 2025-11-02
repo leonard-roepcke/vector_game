@@ -4,7 +4,7 @@ import vector
 import inputs
 app = drawing.PygameApp()
 enemy_handler = enemy.EnemyHandler(app)
-vector_handler = vector.VectorHandler(app)
+vector_handler = vector.VectorHandler(app, enemy_handler)
 input_handler = inputs.InputHandler(app)
 
 while app.loop():
