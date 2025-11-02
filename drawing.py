@@ -131,11 +131,21 @@ class PygameApp:
         pygame.draw.line(self.screen, (255,255,0), (end_x, end_y), (left_x, left_y), line_width)
         pygame.draw.line(self.screen, (255,255,0), (end_x, end_y), (right_x, right_y), line_width)
 
-    def escape(self):
+    def get_key_value(self):
         keys = pygame.key.get_pressed()
+        
+        for i in range(10):
+            if keys[getattr(pygame, f'K_{i}')]:
+                return int(i)
+        
+        if keys[pygame.K_MINUS]:
+            return -1
+        
+        return None
 
-        if keys[pygame.K_ESCAPE]:
-            return True
+    
+    def escape(self):
+        return pygame.key.get_pressed()[pygame.K_ESCAPE]
     
     def draw_enemy(self, pos, size):
         pygame.draw.circle(self.screen,(255,255,255,0),pos,size)

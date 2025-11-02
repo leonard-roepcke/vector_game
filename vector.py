@@ -25,7 +25,7 @@ class Vector:
 
     def update(self, dt):
         self.life += dt
-        if self.life <=1000:
+        if self.life <=2000:
             self.size += dt/1000
             if self.size >1: self.size=1
         self.scaled_pos = (self.pos[0]*self.size,self.pos[1]*self.size)
