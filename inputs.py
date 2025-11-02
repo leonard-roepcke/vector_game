@@ -11,10 +11,12 @@ class InputHandler:
         val = self.app.get_key_value()
         if val == None:
             self.lock = False
+            return
+        
         if self.lock: return
 
         if None != self.num_x and None != self.num_y:
-            vect = (self.num_x, self.num_y)
+            vect = (self.num_y, self.num_x)
             self.num_x = None
             self.num_y = None
             return vect
@@ -27,10 +29,12 @@ class InputHandler:
         elif self.num_x == None:
             self.num_x = val*self.prefix
             self.lock = True
+            self.prefix = 1
 
         elif self.num_y == None:
             self.num_y = val*self.prefix
             self.lock = True
+            self.prefix = 1
         else:
             LookupError()
             
