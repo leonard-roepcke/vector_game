@@ -11,12 +11,12 @@ class InputHandler:
         val = self.app.get_key_value()
         if val == None:
             self.lock = False
-            return
+            if self.num_x==val or self.num_y==val: return
         
         if self.lock: return
 
         if None != self.num_x and None != self.num_y:
-            vect = (self.num_y, self.num_x)
+            vect = (self.num_x, self.num_y)
             self.num_x = None
             self.num_y = None
             return vect
