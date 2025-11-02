@@ -4,9 +4,10 @@ import vector
 app = drawing.PygameApp()
 enemy_handler = enemy.EnemyHandler(app)
 vector_handler = vector.VectorHandler(app)
+vector_handler.add_vector((4,5))
 while app.loop():
     app.draw_coordinates()
-    app.draw_vector((1,2))
     enemy_handler.update_enemys()
+    vector_handler.update_vectors()
     
     

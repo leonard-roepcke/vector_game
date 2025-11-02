@@ -58,6 +58,7 @@ class Enemy:
     
     def draw(self):
         self.handler.draw_enemy(self.pos, self.size)
+        
     def update(self, dt):
         self.live+=dt
         if self.live<=5000:
