@@ -3,10 +3,19 @@ class VectorHandler:
         self.pygame_app = pygame_app
         self.enemy_handler = enemy_handler
         self.vectors = []
+        self.vectors_to_rm = []
     
     def update_vectors(self):
         dt = self.pygame_app.dt
         enemys = self.enemy_handler.enemys
+
+        for rm_vector in self.vectors_to_rm:
+            for vector in self.vectors:
+                if rm_vector == vector:
+                    self.vectors.remove(vector)
+                    break
+
+        self.vectors_to_rm.clear() 
         for vector in self.vectors:
             vector.update(dt)
             vector.draw()
@@ -19,6 +28,9 @@ class VectorHandler:
     
     def add_vector(self, pos):
         self.vectors.append(Vector(self,pos))
+    
+    def rm_vector(self, vector):
+        self.vectors_to_rm.append(vector)
 
 class Vector:
     def __init__(self, handler, pos):
@@ -34,6 +46,8 @@ class Vector:
             self.size += dt/1000
             if self.size >1: self.size=1
         self.scaled_pos = (self.pos[0]*self.size,self.pos[1]*self.size)
+        if self.life >=6000:
+            self.handler.rm_vector(self)
 
     def draw(self):
         self.handler.draw_vector(self.scaled_pos)
