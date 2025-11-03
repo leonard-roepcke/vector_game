@@ -1,4 +1,8 @@
 import pygame
+from enum import Enum, auto
+class GameStates(Enum):
+            start = auto()
+            game = auto()
 
 class PygameApp:
     def __init__(self):
@@ -17,6 +21,10 @@ class PygameApp:
         self.arrow_width = 20
         self.line_width = 8
 
+        
+
+        self.game_state = GameStates.start
+
     def r_to_w_pos(self, relative_pos):
         return (self.SCREEN_SIZE[0] / 2 + relative_pos[0],
                 self.SCREEN_SIZE[1] / 2 + relative_pos[1])
@@ -33,6 +41,48 @@ class PygameApp:
         
         if self.escape(): return False
         return True
+    
+    def draw_start(self):
+        screen_size = self.SCREEN_SIZE
+        
+        # Hintergrund
+        self.screen.fill((30, 30, 50))
+        
+        # Titel
+        font_title = pygame.font.Font(None, 74)
+        title_text = font_title.render("Mein Spiel", True, (255, 255, 255))
+        title_rect = title_text.get_rect(center=(screen_size[0]//2, 150))
+        self.screen.blit(title_text, title_rect)
+        
+        # Start-Button
+        button_width = 200
+        button_height = 60
+        button_x = screen_size[0]//2 - button_width//2
+        button_y = screen_size[1]//2
+        button_rect = pygame.Rect(button_x, button_y, button_width, button_height)
+        
+        # Mausposition für Hover-Effekt
+        mouse_pos = pygame.mouse.get_pos()
+        if button_rect.collidepoint(mouse_pos):
+            button_color = (100, 200, 100)
+        else:
+            button_color = (50, 150, 50)
+        
+        # Button zeichnen
+        pygame.draw.rect(self.screen, button_color, button_rect, border_radius=10)
+        pygame.draw.rect(self.screen, (255, 255, 255), button_rect, 3, border_radius=10)
+        
+        # Button-Text
+        font_button = pygame.font.Font(None, 48)
+        button_text = font_button.render("START", True, (255, 255, 255))
+        text_rect = button_text.get_rect(center=button_rect.center)
+        self.screen.blit(button_text, text_rect)
+        
+        # Klick-Erkennung
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if button_rect.collidepoint(event.pos):
+                    self.game_state = GameStates.game
     
     def draw_coordinates(self):
         center = self.center
