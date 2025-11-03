@@ -11,7 +11,7 @@ class PygameApp:
         self.clock = pygame.time.Clock()
 
         self.center = (self.SCREEN_SIZE[0] // 2, self.SCREEN_SIZE[1] // 2)
-        self.grid_step = 100
+        self.grid_step = self.SCREEN_SIZE[1]/22 #100
         self.grid_count = 10     
         self.arrow_size = 30
         self.arrow_width = 20
