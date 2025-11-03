@@ -1,4 +1,5 @@
 import random
+import drawing
 class EnemyHandler:
     def __init__(self, pygame_app):
         self.pygame_app = pygame_app
@@ -57,6 +58,9 @@ class EnemyHandler:
             y = random.choices(outer_values, weights=weights, k=1)[0]
 
         return (x, y)
+    
+    def stop_game():
+        self.pygame_app.game_state = drawing.GameStates.start
 
 
 class Enemy:
@@ -85,5 +89,8 @@ class Enemy:
             dx /= length
             dy /= length
         self.pos = (self.pos[0] + dx * self.speed, self.pos[1] + dy * self.speed)
+        if self.pos[0]**2 < 1 or self.pos[1]**2 < 1:
+            if (self.pos[0]**2 + self.pos[1]**2) < 0.05:
+                self.handler.stop_game()
 
 
